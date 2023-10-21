@@ -1,14 +1,14 @@
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include "server.hpp"
 
-int main() {
-    // Soket oluştur
-    int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (serverSocket == -1) {
+Server::Server() {
+    Server *server = new Server();
+}
+
+int main(int ac, char **av) {
+    User user;
+    Server server;
+    server.serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server.serverSocket == -1) {
         std::cerr << "Soket oluşturma hatası" << std::endl;
         return 1;
     }
@@ -43,15 +43,26 @@ int main() {
     std::cout << "İstemci bağlandı. Mesaj bekleniyor..." << std::endl;
 
     char buffer[1024];
-    // İstemciden gelen veriyi al
-    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
-    if (bytesRead == -1) {
-        std::cerr << "Veri alma hatası" << std::endl;
-        return 1;
-    }
+    while (true) {
+        // İstemciden gelen veriyi al
+        ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+        if (bytesRead == -1) {
+            std::cerr << "Veri alma hatası" << std::endl;
+            break;
+        }
+        if (bytesRead == 0) {
+            std::cerr << "İstemci bağlantısı kesildi" << std::endl;
+            break;
+        }
 
-    // Alınan veriyi ekrana yazdır
-    std::cout << "Alınan veri: " << buffer << std::endl;
+        buffer[bytesRead] = '\0'; // Null karakter ekleyin
+        std::cout << "Alınan veri: " << buffer << std::endl;
+
+        if (strncmp(buffer, "EXIT", 4) == 0) {
+            std::cout << "Sunucu kapatılıyor..." << std::endl;
+            break;
+        }
+    }
 
     // Soketleri kapat
     close(clientSocket);

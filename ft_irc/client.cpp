@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string>
 
 int main() {
     // Soket oluştur
@@ -28,12 +29,22 @@ int main() {
 
     std::cout << "Sunucuya bağlandı. Mesaj gönderiliyor..." << std::endl;
 
-    const char* message = "Merhaba, bu bir istemci mesajıdır.";
-    // Mesajı sunucuya gönder
-    ssize_t bytesSent = send(clientSocket, message, strlen(message), 0);
-    if (bytesSent == -1) {
-        std::cerr << "Mesaj gönderme hatası" << std::endl;
-        return 1;
+    char send_string[1024];
+    while (true) {
+        std::cout << "Lütfen göndermek istediğiniz mesajı giriniz: ";
+        std::cin.getline(send_string, sizeof(send_string));
+
+        // Mesajı sunucuya gönder
+        ssize_t bytesSent = send(clientSocket, send_string, strlen(send_string), 0);
+        if (bytesSent == -1) {
+            std::cerr << "Mesaj gönderme hatası" << std::endl;
+            break;
+        }
+
+        if (strncmp(send_string, "EXIT", 4) == 0) {
+            std::cout << "İstemci kapatılıyor..." << std::endl;
+            break;
+        }
     }
 
     // Soketi kapat
