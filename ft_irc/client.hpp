@@ -1,5 +1,5 @@
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#ifndef CLIENT_HPP
+#define CLIENT_HPP
 
 #include <netinet/in.h>
 #include <iostream>
@@ -8,19 +8,18 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
-#include <vector>
 
-class Server {
+class Client {
 public:
-    Server(int port);
-    void Start();
+    Client(const char* serverIP, int serverPort);
+    void Connect();
+    void StartCommunication();
 
 private:
+    int clientSocket;
+    const char* serverIP;
     int serverPort;
-    int serverSocket;
     struct sockaddr_in serverAddr;
-    struct sockaddr_in newAddr;
-    socklen_t addrSize;
 };
 
 #endif
