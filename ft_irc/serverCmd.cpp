@@ -4,25 +4,24 @@ string Server::cmd(std::string& wholeMsg) {
     return (wholeMsg.substr(0, wholeMsg.find(' ')));
 }
 
-void learnAscii(string str) {
-    int i = 0;
-    int a = 0;
-    while(str[i]) {
-        a = str[i];
-        cout << "[DEBUG] : " << a << endl;
-        i++;
-    }
-}
-
 void Server::FindCmd(string msg, int clientSocket) {
     string parsedCmd = cmd(msg);
-    learnAscii(parsedCmd);
 
-    if(parsedCmd == "WHO\n")
-        commands.whoCmd(msg, clientSocket);
-    if(parsedCmd == "NAME")
-        commands.nameCmd(msg, clientSocket);
-
+    if(parsedCmd == "WHO\n") {
+        if (this->user.getName().empty()) {
+        string clientReq = "Bulunamadi\n";
+        SendToClient(clientSocket, clientReq);
+        } 
+        else {
+            string clientReq = "[Kullanici adiniz] : " + this->user.getName() + "\n";
+            SendToClient(clientSocket, clientReq);
+        }
+    }
+    if(parsedCmd == "NAME") {
+        this->user.setName(msg.substr(5, msg.find(' ') + 1));
+        string message = "Isim degistirildi. Güncel isim : " + user.getName() + "\n";
+        SendToClient(clientSocket, message);
+    }
 }  
 
 void Server::SendToClient(int clientSocket, const std::string& message) {

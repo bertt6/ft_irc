@@ -9,7 +9,6 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <vector>
-#include "execute.hpp"
 #include <string>
 #include <map>
 #include "user.hpp"
@@ -36,7 +35,7 @@ class Server {
         void SendToClient(int clientSocket, const std::string& message);
         string cmd(std::string& wholeMsg);
         User user;
-        Commands commands;
+        
 
 };
 

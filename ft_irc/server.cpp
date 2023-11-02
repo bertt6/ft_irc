@@ -1,6 +1,8 @@
 #include "server.hpp"
 
 
+
+
 Server::Server(int port) {
     _serverPort = port;
     _serverSocket = -1;
@@ -37,15 +39,15 @@ Server::Server(int port) {
 
 void Server::Start() {
     fd_set readSet;
-    std::vector<int> clientSockets;
+    std::vector<int> _clientSockets;
     int maxFd = _serverSocket;
 
     while (true) {
         FD_ZERO(&readSet);
         FD_SET(_serverSocket, &readSet);
 
-        for (size_t i = 0; i < clientSockets.size(); i++) {
-            int clientSocket = clientSockets[i];
+        for (size_t i = 0; i < _clientSockets.size(); i++) {
+            int clientSocket = _clientSockets[i];
             FD_SET(clientSocket, &readSet);
             if (clientSocket > maxFd) {
                 maxFd = clientSocket;
@@ -67,35 +69,35 @@ void Server::Start() {
             }
 
             cout << "Bağlantı kabul edildi..." << endl;
-            clientSockets.push_back(newSocket);
+            _clientSockets.push_back(newSocket);
 
             std::string welcomeMessage = "Hoş geldiniz!\n";
             SendToClient(newSocket, welcomeMessage);
 
         }
 
-        for (size_t i = 0; i < clientSockets.size(); i++) {
-            int clientSocket = clientSockets[i];
-            if (FD_ISSET(clientSocket, &readSet)) {
+        for (size_t i = 0; i < _clientSockets.size(); i++) {
+            int _clientSocket = _clientSockets[i];
+            if (FD_ISSET(_clientSocket, &readSet)) {
                 char buffer[1024];
                 memset(buffer, 0, sizeof(buffer));
-                int bytesRead = recv(clientSocket, buffer, 1024, 0);
+                int bytesRead = recv(_clientSocket, buffer, 1024, 0);
                 
                 string message(buffer);
                 if(message.size()) {
-                    FindCmd(message, clientSocket);
+                    FindCmd(message, _clientSocket);
                 }
 
                 cout << "[DEBUG] " << message << endl;
                 if (bytesRead <= 0) {
                     cout << "Bağlantı kapatılıyor..." << endl;
-                    close(clientSocket);
-                    clientSockets.erase(clientSockets.begin() + i);
+                    close(_clientSocket);
+                    _clientSockets.erase(_clientSockets.begin() + i);
                 } else {
-                    cout << "Client " << clientSocket << ": " << buffer << endl;
-                    for (size_t j = 0; j < clientSockets.size(); j++) {
-                        int otherSocket = clientSockets[j];
-                        if (otherSocket != clientSocket) {
+                    cout << "Client " << _clientSocket << ": " << buffer << endl;
+                    for (size_t j = 0; j < _clientSockets.size(); j++) {
+                        int otherSocket = _clientSockets[j];
+                        if (otherSocket != _clientSocket) {
                             send(otherSocket, buffer, bytesRead, 0);
                         }
                     }
