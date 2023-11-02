@@ -13,7 +13,7 @@ class User {
         string _name;
         string _surname;
         string _nickname;
-        int     fd;
+        //int     fd;
     public:
         string getName();
         void    setName(string name);
@@ -24,6 +24,4 @@ class User {
 
 };
 
-//pool 
-//
 #endif

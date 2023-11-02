@@ -4,8 +4,8 @@ string User::getName() {
     return this->_name;
 }
 
-void User::setName(string surname) {
-    this->_surname = surname;
+void User::setName(string name) {
+    this->_name = name;
 }
 
 string User::getSurName() {

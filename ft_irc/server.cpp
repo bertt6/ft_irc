@@ -2,45 +2,47 @@
 
 
 Server::Server(int port) {
-    serverPort = port;
-    serverSocket = -1;
+    _serverPort = port;
+    _serverSocket = -1;
 
-    memset(&serverAddr, 0, sizeof(serverAddr));
+    memset(&_serverAddr, 0, sizeof(_serverAddr));
 
-    serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-    std::cout << "[DEBUG]SERVER SOCKET : " << serverSocket << std::endl;
-    if (serverSocket < 0) {
+    _serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    cout << "[DEBUG]SERVER SOCKET : " << _serverSocket << endl;
+    if (_serverSocket < 0) {
         perror("Hata: Soket oluşturulamadı");
         exit(1);
     }
 
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(serverPort);
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    _serverAddr.sin_family = AF_INET;
+    _serverAddr.sin_port = htons(_serverPort);
+    _serverAddr.sin_addr.s_addr = INADDR_ANY;
 
-    if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+    if (bind(_serverSocket, (struct sockaddr*)&_serverAddr, sizeof(_serverAddr)) < 0) {
         perror("Hata: Bağlama başarısız");
         exit(1);
     }
 
-    std::cout << "Bağlama başarılı..." << std::endl;
+    cout << "Bağlama başarılı..." << endl;
 
-    if (listen(serverSocket, 10) == 0) {
-        std::cout << "Sunucu dinleniyor..." << std::endl;
+    if (listen(_serverSocket, 10) == 0) {
+        cout << "Sunucu dinleniyor..." << endl;
     } else {
         perror("Hata: Dinleme başarısız");
         exit(1);
     }
 }
 
+
+
 void Server::Start() {
     fd_set readSet;
     std::vector<int> clientSockets;
-    int maxFd = serverSocket;
+    int maxFd = _serverSocket;
 
     while (true) {
         FD_ZERO(&readSet);
-        FD_SET(serverSocket, &readSet);
+        FD_SET(_serverSocket, &readSet);
 
         for (size_t i = 0; i < clientSockets.size(); i++) {
             int clientSocket = clientSockets[i];
@@ -57,15 +59,19 @@ void Server::Start() {
             exit(1);
         }
 
-        if (FD_ISSET(serverSocket, &readSet)) {
-            int newSocket = accept(serverSocket, (struct sockaddr*)&newAddr, &addrSize);
+        if (FD_ISSET(_serverSocket, &readSet)) {
+            int newSocket = accept(_serverSocket, (struct sockaddr*)&_newAddr, &_addrSize);
             if (newSocket < 0) {
                 perror("Hata: Bağlantı kabul edilemedi");
                 exit(1);
             }
 
-            std::cout << "Bağlantı kabul edildi..." << std::endl;
+            cout << "Bağlantı kabul edildi..." << endl;
             clientSockets.push_back(newSocket);
+
+            std::string welcomeMessage = "Hoş geldiniz!\n";
+            SendToClient(newSocket, welcomeMessage);
+
         }
 
         for (size_t i = 0; i < clientSockets.size(); i++) {
@@ -74,12 +80,19 @@ void Server::Start() {
                 char buffer[1024];
                 memset(buffer, 0, sizeof(buffer));
                 int bytesRead = recv(clientSocket, buffer, 1024, 0);
+                
+                string message(buffer);
+                if(message.size()) {
+                    FindCmd(message, clientSocket);
+                }
+
+                cout << "[DEBUG] " << message << endl;
                 if (bytesRead <= 0) {
-                    std::cout << "Bağlantı kapatılıyor..." << std::endl;
+                    cout << "Bağlantı kapatılıyor..." << endl;
                     close(clientSocket);
                     clientSockets.erase(clientSockets.begin() + i);
                 } else {
-                    std::cout << "Client " << clientSocket << ": " << buffer << std::endl;
+                    cout << "Client " << clientSocket << ": " << buffer << endl;
                     for (size_t j = 0; j < clientSockets.size(); j++) {
                         int otherSocket = clientSockets[j];
                         if (otherSocket != clientSocket) {
@@ -91,5 +104,5 @@ void Server::Start() {
         }
     }
 
-    close(serverSocket);
+    close(_serverSocket);
 }
