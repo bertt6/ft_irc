@@ -28,15 +28,19 @@ class Server {
         socklen_t _addrSize;
         
         std::map<int, std::string> _clientNames;
+        string _password;
+        User user;
+        Commands commands;
     public:
         Server(int port);
         void Start();
         void FindCmd(std::string string, int clientSocket);
-        void SendToClient(int clientSocket, const std::string& message);
         string cmd(std::string& wholeMsg);
-        User user;
-        
+        void setPassword(string);
+        string getPassword();
 
 };
+
+void SendToClient(int clientSocket, const std::string& message);
 
 #endif

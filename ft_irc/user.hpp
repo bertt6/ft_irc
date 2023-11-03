@@ -10,16 +10,12 @@ using std::endl;
 
 class User {
     private: 
-        string _name;
-        string _surname;
-        string _nickname;
-        //int     fd;
+        string  _nickname;
+        //bool    _isAuth;
+        //bool    _isPassed;
+        //int     _fd; buraya clientsocket numarasını koy (yani kaçıncı fd olduğu)
     public:
-        string getName();
-        void    setName(string name);
-        string getSurName();
-        void    setSurName(string name);
-        string getNickName();
+        string  getNickName();
         void    setNickName(string name);
 
 };

@@ -1,20 +1,17 @@
-// #include "commands.hpp"
-// #include "server.hpp"
+#include "commands.hpp"
 
-// void Commands::nameCmd(string msg, int clientSocket) {
-//     this->user.setName(msg.substr(5, msg.find(' ') + 1));
-//     string newMessage = "Name changed. Updated name : " + user.getName();
-//     SendToClient(clientSocket, newMessage);
-// }
+void SendToClient1(int clientSocket, const std::string& message) {
+    string sending = message + "\r\n";
+    send(clientSocket, sending.c_str(), sending.size(), 0);
+}
 
-// void Commands::whoCmd(string msg, int clientSocket) {
-//     (void)msg;
-//     if (this->user.getName().empty()) {
-//             string clientReq = "Bulunamadi\n";
-//             SendToClient(clientSocket, clientReq);
-//         } 
-//         else {
-//             string clientReq = "[Kullanici adiniz] : " + this->user.getName() + "\n";
-//             SendToClient(clientSocket, clientReq);
-//         }
-// }
+void Commands::whoCmd(User& user, int clientSocket) {
+    if (user.getNickName().empty()) {
+        string clientReq = "Not found!\n";
+        SendToClient1(clientSocket, clientReq);
+    }
+    else {
+        string clientReq = "[NICK] : " + user.getNickName() + "\n";
+        SendToClient1(clientSocket, clientReq);
+    }
+}

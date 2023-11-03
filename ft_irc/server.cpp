@@ -1,7 +1,12 @@
 #include "server.hpp"
 
+void Server::setPassword(string password) {
+    _password = password;
+}
 
-
+string Server::getPassword() {
+    return _password;
+}
 
 Server::Server(int port) {
     _serverPort = port;
@@ -12,7 +17,7 @@ Server::Server(int port) {
     _serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     cout << "[DEBUG]SERVER SOCKET : " << _serverSocket << endl;
     if (_serverSocket < 0) {
-        perror("Hata: Soket oluşturulamadı");
+        perror("Error: Socket can't created");
         exit(1);
     }
 
@@ -21,20 +26,19 @@ Server::Server(int port) {
     _serverAddr.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(_serverSocket, (struct sockaddr*)&_serverAddr, sizeof(_serverAddr)) < 0) {
-        perror("Hata: Bağlama başarısız");
+        perror("Error: Connection error");
         exit(1);
     }
 
-    cout << "Bağlama başarılı..." << endl;
+    cout << "Connection succesful..." << endl;
 
     if (listen(_serverSocket, 10) == 0) {
-        cout << "Sunucu dinleniyor..." << endl;
+        cout << "Server listening..." << endl;
     } else {
-        perror("Hata: Dinleme başarısız");
+        perror("Error: Listen error!");
         exit(1);
     }
 }
-
 
 
 void Server::Start() {
@@ -57,21 +61,21 @@ void Server::Start() {
         int activity = select(maxFd + 1, &readSet, NULL, NULL, NULL);
 
         if (activity < 0) {
-            perror("Hata: Select hatası");
+            perror("Error: Select error!");
             exit(1);
         }
 
         if (FD_ISSET(_serverSocket, &readSet)) {
             int newSocket = accept(_serverSocket, (struct sockaddr*)&_newAddr, &_addrSize);
             if (newSocket < 0) {
-                perror("Hata: Bağlantı kabul edilemedi");
+                perror("Error: Connection rejected!");
                 exit(1);
             }
 
-            cout << "Bağlantı kabul edildi..." << endl;
+            cout << "Conntection accepted!" << endl;
             _clientSockets.push_back(newSocket);
 
-            std::string welcomeMessage = "Hoş geldiniz!\n";
+            std::string welcomeMessage = "Welcome to FT_IRC!\n";
             SendToClient(newSocket, welcomeMessage);
 
         }
@@ -87,10 +91,8 @@ void Server::Start() {
                 if(message.size()) {
                     FindCmd(message, _clientSocket);
                 }
-
-                cout << "[DEBUG] " << message << endl;
                 if (bytesRead <= 0) {
-                    cout << "Bağlantı kapatılıyor..." << endl;
+                    cout << _clientSocket << "Connection closed..." << endl;
                     close(_clientSocket);
                     _clientSockets.erase(_clientSockets.begin() + i);
                 } else {

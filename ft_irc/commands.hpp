@@ -1,15 +1,31 @@
-// #ifndef COMMANDS_HPP
-// # define COMMANDS_HPP
+#ifndef COMMANDS_HPP
+# define COMMANDS_HPP
 
-// #include "server.hpp"
+#include <netinet/in.h>
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <vector>
+#include <string>
+#include <map>
+#include "user.hpp"
+
+using std::endl;
+using std::cout;
+using std::vector;
+using std::string;
+
+class Commands {
+    private:
 
 
-// class Commands {
-//     private:
-//         //int _clientSocket;
-//     public:
-//         void nameCmd(string, int);
-//         void whoCmd(string msg, int clientSocket);
-// };
+    public:
+        string parsedCmd;
+        void whoCmd(User&, int);
+};
 
-// #endif
+
+#endif
