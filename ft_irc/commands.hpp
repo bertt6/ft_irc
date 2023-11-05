@@ -25,6 +25,11 @@ class Commands {
     public:
         string parsedCmd;
         void whoCmd(User&, int);
+        void nickCmd(User&, int, string);
+
+        string cmd(string&);
+
+        void findCmd(User&, string, int);
 };
 
 

@@ -89,7 +89,7 @@ void Server::Start() {
                 
                 string message(buffer);
                 if(message.size()) {
-                    FindCmd(message, _clientSocket);
+                    handleCmd(message, _clientSocket);
                 }
                 if (bytesRead <= 0) {
                     cout << _clientSocket << "Connection closed..." << endl;
