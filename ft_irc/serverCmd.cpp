@@ -1,5 +1,5 @@
 #include "server.hpp"
 
-void Server::handleCmd(string msg, int clientSocket) {
-    this->commands.findCmd(this->user, msg, clientSocket);
+void Server::handleCmd(string msg, int clientSocket, string password) {
+    this->commands.findCmd(this->user, clientSocket, msg, password);
 }

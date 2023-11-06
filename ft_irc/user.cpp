@@ -7,6 +7,7 @@ string User::getNickName() {
 
 void User::setNickName(string nickname) {
     this->_nickname = nickname;
+    this->haveNick = 1;
 }
 
 

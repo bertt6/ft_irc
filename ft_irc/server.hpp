@@ -34,7 +34,7 @@ class Server {
     public:
         Server(int port);
         void Start();
-        void handleCmd(std::string string, int clientSocket);
+        void handleCmd(std::string, int, string);
         void setPassword(string);
         string getPassword();
 
