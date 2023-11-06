@@ -23,16 +23,16 @@ void showAscii(string msg) {
     cout << endl << "------------------------" << endl;
 }
 
-void Commands::findCmd(User &user, int clientSocket, string msg, string password) {
+void Commands::findCmd(std::map<int, User> &_User, int clientSocket, string msg, string password) {
     string parsedCmd = cmd(msg);
     cout << "Command is : " << parsedCmd << endl;
     showAscii(parsedCmd);
     if (parsedCmd == "WHO\n")
-        this->whoCmd(user, clientSocket);
-    else if (parsedCmd == "NICK" && user._isPassed)
-        this->nickCmd(user, clientSocket, msg);
+        this->whoCmd(_User[clientSocket], clientSocket);
+    else if (parsedCmd == "NICK" && _User[clientSocket]._isPassed)
+        this->nickCmd(_User[clientSocket], clientSocket, msg);
     else if(parsedCmd == "PASS")
-        this->passCmd(user, clientSocket, msg, password);
+        this->passCmd(_User[clientSocket], clientSocket, msg, password);
     else if(parsedCmd == "EXIT")
         exit(1);
 }

@@ -29,6 +29,7 @@ class Server {
         
         std::map<int, std::string> _clientNames;
         string _password;
+        std::map<int, User> _Users;
         User user;
         Commands commands;
     public:
