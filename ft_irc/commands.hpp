@@ -30,7 +30,7 @@ class Commands {
 
         string cmd(string&);
 
-        void findCmd(User&, int, string, string);
+        void findCmd(std::map<int, User> &, int, string, string);
 };
 
 

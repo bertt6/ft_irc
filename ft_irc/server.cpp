@@ -74,7 +74,7 @@ void Server::Start() {
 
             cout << "Conntection accepted!" << endl;
             _clientSockets.push_back(newSocket);
-
+            this->_Users.insert(std::make_pair(maxFd, User()));
             std::string welcomeMessage = "Welcome to FT_IRC!\n";
             SendToClient(newSocket, welcomeMessage);
 
@@ -95,7 +95,8 @@ void Server::Start() {
                     cout << _clientSocket << "Connection closed..." << endl;
                     close(_clientSocket);
                     _clientSockets.erase(_clientSockets.begin() + i);
-                } else {
+                } 
+                else {
                     cout << "Client " << _clientSocket << ": " << buffer << endl;
                     for (size_t j = 0; j < _clientSockets.size(); j++) {
                         int otherSocket = _clientSockets[j];
