@@ -29,18 +29,16 @@ class Server {
         
         std::map<int, std::string> _clientNames;
         string _password;
-        std::map<int, User> _Users;
-        User user;
+        std::map<int, User> Users;
         Commands commands;
+        string hostName;
     public:
         Server(int port);
         void Start();
         void handleCmd(std::string, int, string);
         void setPassword(string);
-        string getPassword();
-
+        string getPassword(void);
+        void resetServer(int);
 };
-
-void SendToClient(int clientSocket, const std::string& message);
 
 #endif

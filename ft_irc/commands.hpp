@@ -12,26 +12,31 @@
 #include <string>
 #include <map>
 #include "user.hpp"
+#include <sstream>
 
 using std::endl;
 using std::cout;
 using std::vector;
 using std::string;
+using std::map;
 
 class Commands {
     private:
 
-
     public:
         string parsedCmd;
-        void whoCmd(User&, int);
-        void nickCmd(User&, int, string);
-        void passCmd(User&, int, string, string);
-
+        vector<string> args; 
+        void Who(User&, int);
+        void Pass(User&, int, string, string);
+        void Nick(map<int, User> &, int, string);
+        void Exit(void);
+        void UserC(User&, int, string);
+        
+        void setArgs(string);
         string cmd(string&);
-
-        void findCmd(std::map<int, User> &, int, string, string);
+        void findCommand(map<int, User> &, int, string, string);
 };
 
+void SendToClient(int, const std::string&);
 
 #endif

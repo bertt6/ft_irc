@@ -45,7 +45,14 @@ void Server::Start() {
     fd_set readSet;
     std::vector<int> _clientSockets;
     int maxFd = _serverSocket;
+    char getHostName[64];
 
+    int res = gethostname(getHostName, 64);
+    if(res == -1) {
+        std::cerr << "Host error!" << endl;
+    }
+    string temp(getHostName);
+    this->hostName = temp;
     while (true) {
         FD_ZERO(&readSet);
         FD_SET(_serverSocket, &readSet);
@@ -74,8 +81,8 @@ void Server::Start() {
 
             cout << "Conntection accepted!" << endl;
             _clientSockets.push_back(newSocket);
-            this->_Users.insert(std::make_pair(maxFd, User()));
-            std::string welcomeMessage = "Welcome to FT_IRC!\n";
+            this->Users.insert(std::make_pair(maxFd, User()));
+            std::string welcomeMessage = this->hostName + " :Welcome to FT_IRC!\n";
             SendToClient(newSocket, welcomeMessage);
 
         }
@@ -92,7 +99,8 @@ void Server::Start() {
                     handleCmd(message, _clientSocket, _password);
                 }
                 if (bytesRead <= 0) {
-                    cout << _clientSocket << "Connection closed..." << endl;
+                    cout << _clientSocket << "Connection closed..." << endl;     
+                    resetServer(_clientSocket);           
                     close(_clientSocket);
                     _clientSockets.erase(_clientSockets.begin() + i);
                 } 
@@ -108,6 +116,13 @@ void Server::Start() {
             }
         }
     }
-
     close(_serverSocket);
+}
+
+void Server::resetServer(int _clientSocket) {
+    this->Users.erase(_clientSocket);
+    
+    //unit test
+    cout << this->Users[_clientSocket].getNickName() << endl;
+    
 }
