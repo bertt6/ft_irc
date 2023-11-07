@@ -24,33 +24,22 @@ void Commands::UserC(User& user, int clientSocket, string msg) {
 }
 /*
 
-ilk giren kisinin kullanabilecegi komutlar:
+ilk giren kisinin kullanabilecegi komutlar: 
     USER
     NICK
     CAP
     PING
     QUIT
-
 register olan birinin kullanabilecegi komutlar :
     PASS
-    NICK
-    USER
-    CAP
-    PING
-    QUIT
 auth olan birinin kullanabilecegi komutlar
     TOPIC 
     KICK
-    PASS
-    NICK
-    USER
     JOIN
     PART
     PRIVMSG
-    QUIT
     WHO
     MODE
     NOTICE
-    PING
     names
 */
