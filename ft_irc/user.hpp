@@ -10,11 +10,15 @@ using std::endl;
 
 class User {
     private: 
-        string  _nickname;
-        //bool    _isAuth;
-        //int     _fd; buraya clientsocket numarasını koy (yani kaçıncı fd olduğu)
+        string  _nickName;
+        string  _realName;
+        bool    _isAuth;
+        bool    _isRegister;
+        bool    _isPass;
     public:
-        bool    _isPassed;
+        string  realName;
+        string  userName;
+        bool    _isPassed;  //ayni seyler niye public olarakta var???
         int     haveNick;
         string  getNickName();
         void    setNickName(string name);
