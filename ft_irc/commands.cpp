@@ -9,14 +9,14 @@ void Commands::findCommand(std::map<int, User> &Users, int clientSocket, string 
     cout << "Command is : " << parsedCmd << endl;
     if (parsedCmd == "WHO\n")
         this->Who(Users[clientSocket], clientSocket);
-    else if (parsedCmd == "NICK" && Users[clientSocket]._isPassed)
+    else if (parsedCmd == "NICK")
         this->Nick(Users, clientSocket, msg);
     else if(parsedCmd == "PASS")
         this->Pass(Users[clientSocket], clientSocket, msg, password);
     else if(parsedCmd == "EXIT")
         this->Exit();
     else if(parsedCmd == "USER")
-        this->UserC(Users[clientSocket], clientSocket, msg);
+        this->Usèr(Users[clientSocket], clientSocket, msg);
 }
 
 void Commands::setArgs(string msg) {

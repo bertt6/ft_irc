@@ -1,12 +1,11 @@
 #include "user.hpp"
 
 string User::getNickName() {
-    return this->_nickName;
+    return this->userName;
 }
 
-void User::setNickName(string nickname) {
-    this->_nickName = nickname;
-    this->haveNick = 1;
+void User::setNickName(string userName) {
+    this->userName = userName;
 }
 
 

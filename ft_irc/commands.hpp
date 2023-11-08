@@ -30,7 +30,7 @@ class Commands {
         void Pass(User&, int, string, string);
         void Nick(map<int, User> &, int, string);
         void Exit(void);
-        void UserC(User&, int, string);
+        void Usèr(User&, int, string);
         
         void setArgs(string);
         string cmd(string&);

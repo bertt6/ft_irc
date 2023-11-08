@@ -1,6 +1,6 @@
 #include "../commands.hpp"
 
-void Commands::UserC(User& user, int clientSocket, string msg) {
+void Commands::Usèr(User& user, int clientSocket, string msg) {
     setArgs(msg);
     this->args.erase(this->args.begin());
     cout << args.size();
@@ -13,6 +13,7 @@ void Commands::UserC(User& user, int clientSocket, string msg) {
     if(args[0].size() && args[1][0] == '*' && args[1][1] == '\0' && args[2][0] == '0' && args[2][1] == '\0' && args[3].size()) {
         user.userName = args[0];
         user.realName = args[3];
+        user._isRegister = true;
     }
     else {
         SendToClient(clientSocket, "User using: USER <username> 0 * <realname> \n");
@@ -30,9 +31,9 @@ ilk giren kisinin kullanabilecegi komutlar:
     CAP
     PING
     QUIT
-register olan birinin kullanabilecegi komutlar :
+register olan birinin kullanabilecegi komutlar ( _isRegsiter )
     PASS
-auth olan birinin kullanabilecegi komutlar
+auth olan birinin kullanabilecegi komutlar ( _isAuth )
     TOPIC 
     KICK
     JOIN
