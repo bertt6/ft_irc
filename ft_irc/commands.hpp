@@ -26,11 +26,13 @@ class Commands {
     public:
         string parsedCmd;
         vector<string> args; 
+        void Exit(void);
         void Who(User&, int);
+        void Usèr(User&, int, string);
+        void Ping(User&, int, string);
         void Pass(User&, int, string, string);
         void Nick(map<int, User> &, int, string);
-        void Exit(void);
-        void UserC(User&, int, string);
+        void UnknowCmd(User&, int, string);
         
         void setArgs(string);
         string cmd(string&);

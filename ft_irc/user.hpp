@@ -9,20 +9,26 @@ using std::cout;
 using std::endl;
 
 class User {
-    private: 
-        string  _nickName;
-        string  _realName;
-        bool    _isAuth;
-        bool    _isRegister;
-        bool    _isPass;
-    public:
+
+    private:
         string  realName;
         string  userName;
-        bool    _isPassed;  //ayni seyler niye public olarakta var???
-        int     haveNick;
-        string  getNickName();
-        void    setNickName(string name);
+        string  nickName;
 
+    public:
+        bool    _isAuth;
+        bool    _isRegister;
+        bool    _isNicked;
+        bool    _isUser;
+
+        string  getNickName();
+        void    setNickName(string);
+
+        string  getRealName();
+        void    setRealName(string);
+
+        string  getUserName();
+        void    setUserName(string);
 };
 
 #endif

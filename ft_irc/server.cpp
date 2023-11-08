@@ -79,7 +79,7 @@ void Server::Start() {
                 exit(1);
             }
 
-            cout << "Conntection accepted!" << endl;
+            cout << "Conntection accepted! " << newSocket << endl;
             _clientSockets.push_back(newSocket);
             this->Users.insert(std::make_pair(maxFd, User()));
             std::string welcomeMessage = this->hostName + " :Welcome to FT_IRC!\n";
@@ -99,7 +99,7 @@ void Server::Start() {
                     handleCmd(message, _clientSocket, _password);
                 }
                 if (bytesRead <= 0) {
-                    cout << _clientSocket << "Connection closed..." << endl;     
+                    cout << _clientSocket << " Connection closed..." << endl;     
                     resetServer(_clientSocket);           
                     close(_clientSocket);
                     _clientSockets.erase(_clientSockets.begin() + i);
@@ -117,6 +117,10 @@ void Server::Start() {
         }
     }
     close(_serverSocket);
+}
+
+void Server::handleCmd(string msg, int clientSocket, string password) {
+    this->commands.findCommand(this->Users, clientSocket, msg, password);
 }
 
 void Server::resetServer(int _clientSocket) {
