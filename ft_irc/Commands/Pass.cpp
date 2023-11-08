@@ -21,13 +21,8 @@ void Commands::Pass(User& user, int clientSocket, string msg, string svPasswd) {
         string message;
         passwd = msg.substr(5, msg.find(' '));
         svPasswd = svPasswd + '\n';
-        cout << "Passwd is : " << passwd << endl;
-        cout << "--------------" << "ARG PASSWD " << "--------------" << endl;
-        showAscii(svPasswd);    
-        cout << "--------------" << "PASS PASSWD " << "--------------" << endl;
-        showAscii(passwd);
-        if(!passwd.empty() && passwd == svPasswd) {
-            //message = "You're passed now! You can use NICK command!\n"; mantik hatsi
+        if(!passwd.empty() && passwd == svPasswd && user._isRegister) {
+            message = "You're auth now!\n";
             SendToClient(clientSocket, message);
             user._isAuth = true;
         }

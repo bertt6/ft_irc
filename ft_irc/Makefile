@@ -2,7 +2,7 @@ NAME = ft_irc
 CC = c++
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJECTS = $(FILE:.cpp=.o)
-FILE = server.cpp main.cpp user.cpp serverCmd.cpp commands.cpp ./commands/Exit.cpp ./commands/Nick.cpp ./commands/Pass.cpp ./commands/Who.cpp ./commands/User.cpp
+FILE = server.cpp main.cpp user.cpp commands.cpp ./commands/Exit.cpp ./commands/Nick.cpp ./commands/Pass.cpp ./commands/Who.cpp ./commands/User.cpp ./commands/Ping.cpp
 RM = rm -rf
 
 all: $(NAME)

@@ -5,30 +5,39 @@ void Commands::Usèr(User& user, int clientSocket, string msg) {
     this->args.erase(this->args.begin());
     cout << args.size();
     if(args.size() != 4) {
-        string err = user.getNickName() + " " + this->parsedCmd + " :Not enough parameters\n";
+        string err = "<client> <command> :Not enough parameters";
         SendToClient(clientSocket, err);
         args.clear();
         return ;
     }
-    if(args[0].size() && args[1][0] == '*' && args[1][1] == '\0' && args[2][0] == '0' && args[2][1] == '\0' && args[3].size()) {
-        user.userName = args[0];
-        user.realName = args[3];
-        user._isRegister = true;
+    if(args[0].size() && args[1][0] == '0' && args[1][1] == '\0' && args[2][0] == '*' && args[2][1] == '\0' && args[3].size()) {
+        if(!user.getUserName().empty() && !user.getRealName().empty()) {
+             SendToClient(clientSocket, "<client> :You may not reregister");
+             return ;
+        }
+        user.setUserName(args[0]);
+        user.setRealName(args[3]);
+        user._isUser = true;
+        if (user._isNicked) {
+            user._isRegister = true;
+            SendToClient(clientSocket, "You are registered now!\n");
+        }
     }
     else {
         SendToClient(clientSocket, "User using: USER <username> 0 * <realname> \n");
         args.clear();
         return ;
     }
-    cout << "USER CHECK : " << user.userName << " " << user.realName << endl;
-    //USER <bs> 0 * <bsamli>
+    cout << "USER CHECK : " << user.getUserName() << " " << user.getRealName() << endl;
 }
+
+
 /*
 
 ilk giren kisinin kullanabilecegi komutlar: 
     USER
     NICK
-    CAP
+    CAP //bos
     PING
     QUIT
 register olan birinin kullanabilecegi komutlar ( _isRegsiter )
