@@ -2,24 +2,34 @@
 
 string Commands::cmd(std::string& wholeMsg) {
     wholeMsg.erase(remove(wholeMsg.begin(), wholeMsg.end(), '\n'), wholeMsg.end());
+    wholeMsg.erase(remove(wholeMsg.begin(), wholeMsg.end(), '\r'), wholeMsg.end());
     return (wholeMsg.substr(0, wholeMsg.find(' ')));
+}
+
+void checkAscii(string str) {
+    int chk = 0;
+    for(int i = 0; str[i]; i++) {
+        chk = str[i];
+        cout << "[CHECK][" << i << "]" << chk << endl;
+    }
 }
 
 void Commands::findCommand(std::map<int, User> &Users, int clientSocket, string msg, string password) {
     string parsedCmd = cmd(msg);
     //cout << "Command is : [" << parsedCmd << "]" << endl;
-    if (parsedCmd == "WHO\n")
+    checkAscii(parsedCmd);
+    if (parsedCmd == "WHO")
         this->Who(Users[clientSocket], clientSocket);
     else if (parsedCmd == "NICK")
         this->Nick(Users, clientSocket, msg);
     else if (parsedCmd == "PASS")
         this->Pass(Users[clientSocket], clientSocket, msg, password);
-    else if (parsedCmd == "EXIT")
-        this->Exit();
     else if (parsedCmd == "USER")
         this->Usèr(Users[clientSocket], clientSocket, msg);
     else if (parsedCmd == "PING")  
         this->Ping(Users[clientSocket], clientSocket, parsedCmd);
+    else if (parsedCmd == "QUIT")
+        this->Quit(Users[clientSocket], clientSocket, msg);
     else
         this->UnknowCmd(Users[clientSocket], clientSocket, parsedCmd);
 }

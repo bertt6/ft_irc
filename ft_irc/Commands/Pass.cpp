@@ -15,13 +15,13 @@ void showAscii(string msg) {
 }
 
 void Commands::Pass(User& user, int clientSocket, string msg, string svPasswd) {
-    if (user._isRegister) {
-        (void)user;
+    if (user._isRegister && !msg.empty()) {
         string passwd;
         string message;
-        passwd = msg.substr(5, msg.find(' '));
-        svPasswd = svPasswd + '\n';
-        if(!passwd.empty() && passwd == svPasswd && user._isRegister) {
+        //PASS komutu gelince 
+        if(!msg.empty())
+            passwd = msg.substr(5, msg.find(' '));
+        if(!passwd.empty() && passwd == svPasswd) {
             message = "You're auth now!\n";
             SendToClient(clientSocket, message);
             user._isAuth = true;

@@ -33,6 +33,7 @@ class Commands {
         void Pass(User&, int, string, string);
         void Nick(map<int, User> &, int, string);
         void UnknowCmd(User&, int, string);
+        void Quit(User&, int, string);
         
         void setArgs(string);
         string cmd(string&);

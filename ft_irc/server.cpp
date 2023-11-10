@@ -106,12 +106,12 @@ void Server::Start() {
                 } 
                 else {
                     cout << "Client " << _clientSocket << ": " << buffer << endl;
-                    for (size_t j = 0; j < _clientSockets.size(); j++) {
-                        int otherSocket = _clientSockets[j];
-                        if (otherSocket != _clientSocket) {
-                            send(otherSocket, buffer, bytesRead, 0);
-                        }
-                    }
+                    // for (size_t j = 0; j < _clientSockets.size(); j++) {
+                    //     int otherSocket = _clientSockets[j];
+                    //     if (otherSocket != _clientSocket) {
+                    //         send(otherSocket, buffer, bytesRead, 0);
+                    //     }
+                    // } YAZILAN KOMUTLAR DİĞER CLİENT'LERDE GÖZÜKMESİN DİYE BURAYI YORUM SATIRINA ALDIM
                 }
             }
         }
