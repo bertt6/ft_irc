@@ -5,8 +5,14 @@ string Commands::cmd(std::string& wholeMsg) {
     return (wholeMsg.substr(0, wholeMsg.find(' ')));
 }
 
-void Commands::findCommand(std::map<int, User> &Users, int clientSocket, string msg, string password) {
-    string parsedCmd = cmd(msg);
+string Commands::arg(std::string& wholeMsg) {
+    wholeMsg.erase(remove(wholeMsg.begin(), wholeMsg.end(), '\n'), wholeMsg.end());
+    return (wholeMsg.substr(wholeMsg.find(' ') + 1));
+}
+
+void Commands::findCommand(map<int, User> &Users, vector<Channel> &channels, int clientSocket, string msg, string password) {
+    string parsedCmd = this->cmd(msg);
+    setArgs(msg);
     //cout << "Command is : [" << parsedCmd << "]" << endl;
     if (parsedCmd == "WHO\n")
         this->Who(Users[clientSocket], clientSocket);
@@ -20,6 +26,12 @@ void Commands::findCommand(std::map<int, User> &Users, int clientSocket, string 
         this->Usèr(Users[clientSocket], clientSocket, msg);
     else if (parsedCmd == "PING")  
         this->Ping(Users[clientSocket], clientSocket, parsedCmd);
+    else if (parsedCmd == "JOIN")
+        this->Join(Users[clientSocket], channels, clientSocket);
+    else if (parsedCmd == "test") {
+        vector<Channel>::iterator it = channels.begin();
+        cout << (*it).getName() << endl;
+    }
     else
         this->UnknowCmd(Users[clientSocket], clientSocket, parsedCmd);
 }

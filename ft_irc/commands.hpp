@@ -11,8 +11,9 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "user.hpp"
 #include <sstream>
+#include "user.hpp"
+#include "channel.hpp"
 
 using std::endl;
 using std::cout;
@@ -32,11 +33,13 @@ class Commands {
         void Ping(User&, int, string);
         void Pass(User&, int, string, string);
         void Nick(map<int, User> &, int, string);
+        void Join(User&, vector<Channel> &, int);
         void UnknowCmd(User&, int, string);
         
         void setArgs(string);
         string cmd(string&);
-        void findCommand(map<int, User> &, int, string, string);
+        string arg(string&);
+        void findCommand(map<int, User> &, vector<Channel> &, int, string, string);
 };
 
 void SendToClient(int, const std::string&);

@@ -120,7 +120,7 @@ void Server::Start() {
 }
 
 void Server::handleCmd(string msg, int clientSocket, string password) {
-    this->commands.findCommand(this->Users, clientSocket, msg, password);
+    this->commands.findCommand(this->Users, this->channels, clientSocket, msg, password);
 }
 
 void Server::resetServer(int _clientSocket) {

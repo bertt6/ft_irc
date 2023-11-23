@@ -13,6 +13,7 @@
 #include <map>
 #include "user.hpp"
 #include "commands.hpp"
+#include "channel.hpp"
 
 using std::endl;
 using std::cout;
@@ -32,6 +33,8 @@ class Server {
         std::map<int, User> Users;
         Commands commands;
         string hostName;
+
+        vector<Channel> channels;
     public:
         Server(int port);
         void Start();
