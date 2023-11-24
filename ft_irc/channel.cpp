@@ -74,6 +74,29 @@ void Channel::removeAdmin(User *user)
     }
 }
 
+
+bool Channel::userOnTheChannel(string name)
+{
+    std::vector<User *>::iterator it = this->users.begin();
+    for (; it != this->users.begin() ; it++)
+    {
+        if ((*it)->getNickName() == name)
+            return true;
+    }
+    return false;
+}
+
+bool Channel::userIsTheAdmin(string name)
+{
+    std::vector<User *>::iterator it = this->admins.begin();
+    for (; it != this->admins.begin() ; it++)
+    {
+        if ((*it)->getNickName() == name)
+            return true;
+    }
+    return false;
+}
+
 vector<User *> Channel::getUsers(void)
 {
     return this->users;

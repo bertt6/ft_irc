@@ -36,6 +36,8 @@ class Channel
         void removeUser(User*);
         void addAdmin(User*);
         void removeAdmin(User*);
+        bool userOnTheChannel(string);
+        bool userIsTheAdmin(string);
         vector<User *> getUsers(void);
         vector<User *> getAdmins(void);
 };

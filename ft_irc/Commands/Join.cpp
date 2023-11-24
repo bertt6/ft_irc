@@ -4,19 +4,22 @@ void Commands::Join(User &user, vector<Channel> &channels, int clientSocket)
 {
     if (user._isAuth)
     {
-        (void)user;
         (void)clientSocket;
         vector<string>::iterator itArgs = args.begin() + 1;
-        if ((*itArgs).c_str())
+        cout << (*itArgs)[0] << endl;
+        if (itArgs != args.end() && (*itArgs)[0] == '#')
         {
-            vector<Channel>::iterator itChannels = channels.begin();
-            for (; itChannels != channels.end(); itChannels++)
+            cout << "if" << endl;
+            for (vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
             {
-                if (itChannels->getName() == (*itArgs))
-                {
+                cout << "channels" << endl;
+                if (itChannels->getName() == *itArgs)
+                {   
                     User *userPtr = &user;
                     itChannels->addUser(userPtr);
                     //user added message
+                    cout << "user added" << endl;
+
                     return;
                 }
             }
@@ -25,4 +28,4 @@ void Commands::Join(User &user, vector<Channel> &channels, int clientSocket)
             //user added message
         }
     }
-}
+}   

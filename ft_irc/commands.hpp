@@ -34,6 +34,7 @@ class Commands {
         void Pass(User&, int, string, string);
         void Nick(map<int, User> &, int, string);
         void Join(User&, vector<Channel> &, int);
+        void Part(User&, vector<Channel> &, int);
         void UnknowCmd(User&, int, string);
         
         void setArgs(string);

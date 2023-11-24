@@ -34,13 +34,15 @@ void Commands::findCommand(map<int, User> &Users, vector<Channel> &channels, int
     }
     else
         this->UnknowCmd(Users[clientSocket], clientSocket, parsedCmd);
+    args.clear();
 }
 
 void    Commands::setArgs(string msg) {
     std::istringstream iss(msg);
-    std::string token;
+    string token;
 
     while (iss >> token) {
+        cout << token << endl;
         args.push_back(token);
     }
 }
