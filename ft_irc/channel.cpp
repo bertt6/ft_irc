@@ -3,6 +3,7 @@
 Channel::Channel(string name, User *user)
 {
     this->name = name;
+    users.push_back(user);
     admins.push_back(user);
 }
 
@@ -28,8 +29,7 @@ void    Channel::setTopic(string topic)
 
 void Channel::addUser(User *user)
 {
-    std::vector<User *>::iterator it = this->users.begin();
-    for (; it != this->users.begin() ; it++)
+    for (std::vector<User *>::iterator it = this->users.begin(); it != this->users.begin() ; it++)
     {
         if ((*it)->getNickName() == user->getNickName())
             break;
@@ -37,12 +37,11 @@ void Channel::addUser(User *user)
     this->users.push_back(user);
 }
 
-void Channel::removeUser(User *user)
+void Channel::removeUser(string name)
 {
-    std::vector<User *>::iterator it = this->users.begin();
-    for (; it != this->users.begin() ; it++)
+    for (std::vector<User *>::iterator it = this->users.begin(); it != this->users.begin(); it++)
     {
-        if ((*it)->getNickName() == user->getNickName())
+        if ((*it)->getNickName() == name)
         {
             this->users.erase(it);
             break;
@@ -52,8 +51,7 @@ void Channel::removeUser(User *user)
 
 void Channel::addAdmin(User *user)
 {
-    std::vector<User *>::iterator it = this->admins.begin();
-    for (; it != this->users.begin() ; it++)
+    for (std::vector<User *>::iterator it = this->admins.begin(); it != this->users.begin() ; it++)
     {
         if ((*it)->getNickName() == user->getNickName())
             break;
@@ -63,8 +61,7 @@ void Channel::addAdmin(User *user)
 
 void Channel::removeAdmin(User *user)
 {
-    std::vector<User *>::iterator it = this->admins.begin();
-    for (; it != this->users.begin() ; it++)
+    for (std::vector<User *>::iterator it = this->admins.begin(); it != this->users.end(); it++)
     {
         if ((*it)->getNickName() == user->getNickName())
         {
@@ -77,8 +74,7 @@ void Channel::removeAdmin(User *user)
 
 bool Channel::userOnTheChannel(string name)
 {
-    std::vector<User *>::iterator it = this->users.begin();
-    for (; it != this->users.begin() ; it++)
+    for (std::vector<User *>::iterator it = this->users.begin(); it != this->users.end(); it++)
     {
         if ((*it)->getNickName() == name)
             return true;
@@ -88,8 +84,7 @@ bool Channel::userOnTheChannel(string name)
 
 bool Channel::userIsTheAdmin(string name)
 {
-    std::vector<User *>::iterator it = this->admins.begin();
-    for (; it != this->admins.begin() ; it++)
+    for (std::vector<User *>::iterator it = this->admins.begin(); it != this->admins.end(); it++)
     {
         if ((*it)->getNickName() == name)
             return true;

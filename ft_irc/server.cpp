@@ -109,9 +109,8 @@ void Server::Start() {
                     for (size_t j = 0; j < _clientSockets.size(); j++) {
                         int otherSocket = _clientSockets[j];
                         if (otherSocket != _clientSocket) {
-                            send(otherSocket, buffer, bytesRead, 0);
                         }
-                    }
+                    }//?
                 }
             }
         }

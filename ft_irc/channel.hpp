@@ -33,7 +33,7 @@ class Channel
         string getTopic(void);
         void setTopic(string);
         void addUser(User*);
-        void removeUser(User*);
+        void removeUser(string);
         void addAdmin(User*);
         void removeAdmin(User*);
         bool userOnTheChannel(string);

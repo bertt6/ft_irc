@@ -3,8 +3,8 @@
 void Commands::Part(User &user, vector<Channel> &channels, int clientSocket)
 {
     (void)clientSocket;
-    if (user._isAuth)
-    {
+    //if (user._isAuth)
+    //{
         vector<string>::iterator itArgs = args.begin() + 1;
         if (itArgs != args.end())
         {
@@ -12,12 +12,11 @@ void Commands::Part(User &user, vector<Channel> &channels, int clientSocket)
             {
                 if (itChannels->getName() == (*itArgs) && itChannels->userOnTheChannel(user.getNickName()))
                 {
-                    User *userPtr = &user;
-                    itChannels->removeUser(userPtr);
-                    //user removecd message
+                    itChannels->removeUser(user.getNickName());
+                    //user removed message
                     return;
                 }
             }
         }
-    }
+    //}
 }

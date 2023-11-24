@@ -11,7 +11,7 @@ string Commands::arg(std::string& wholeMsg) {
 }
 
 void Commands::findCommand(map<int, User> &Users, vector<Channel> &channels, int clientSocket, string msg, string password) {
-    string parsedCmd = this->cmd(msg);
+    string parsedCmd = this->cmd(msg); args.begin();
     setArgs(msg);
     //cout << "Command is : [" << parsedCmd << "]" << endl;
     if (parsedCmd == "WHO\n")
@@ -28,9 +28,20 @@ void Commands::findCommand(map<int, User> &Users, vector<Channel> &channels, int
         this->Ping(Users[clientSocket], clientSocket, parsedCmd);
     else if (parsedCmd == "JOIN")
         this->Join(Users[clientSocket], channels, clientSocket);
-    else if (parsedCmd == "test") {
+    else if (parsedCmd == "test")
+    {
+        cout << endl << endl;
         vector<Channel>::iterator it = channels.begin();
+        vector<User *> admins = (*it).getAdmins();
+
+        vector<User *>::iterator admin = admins.begin();
+        //vector<User *>::iterator admin = (*it).getAdmins().begin();
+
+        cout << (*admin)->getNickName() << endl;
+        //cout << (*user)->getNickName() << endl;
         cout << (*it).getName() << endl;
+        cout << (*it).userIsTheAdmin(Users[clientSocket].getNickName()) << endl;
+        cout << (*it).userOnTheChannel(Users[clientSocket].getNickName()) << endl;
     }
     else
         this->UnknowCmd(Users[clientSocket], clientSocket, parsedCmd);
@@ -41,10 +52,8 @@ void    Commands::setArgs(string msg) {
     std::istringstream iss(msg);
     string token;
 
-    while (iss >> token) {
-        cout << token << endl;
+    while (iss >> token)
         args.push_back(token);
-    }
 }
 
 void    Commands::UnknowCmd(User &user, int clientSocket, string msg) {
