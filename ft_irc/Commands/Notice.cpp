@@ -1,6 +1,6 @@
 #include "../commands.hpp"
 
-void Commands::Privmsg(User &user, vector<Channel> &channels, map<int, User> &users, int clientSocket)
+void Commands::Notice(User &user, vector<Channel> &channels, map<int, User> &users)
 {
     if (user._isAuth)
     {
@@ -17,27 +17,21 @@ void Commands::Privmsg(User &user, vector<Channel> &channels, map<int, User> &us
                     if ((*itUser)->getNickName() != user.getNickName())
                     {
                         cout << (*itUser)->socket << endl;
-                        SendToClient((*itUser)->socket, (*itUser)->getClientName() + " PRIVMSG " + user.getNickName() + ": " + *msg + "\n");
+                        SendToClient((*itUser)->socket, (*itUser)->getClientName() + " NOTICE " + user.getNickName() + ": " + *msg + "\n");
                     }
                 }
                 return;
             }
             else
-            {
-                errorHandle(user, channel->getName(), clientSocket, ERR_CANNOTSENDTOCHAN);
                 return ;
-            }
         }
         else if ((args.begin() + 1)[0] == "#")
-        {
-            errorHandle(user, args[1], clientSocket, ERR_NOSUCHCHANNEL);
             return ;
-        }
 
         User *reciverUser = findUser(users);
         if (reciverUser)
             SendToClient(reciverUser->socket, reciverUser->getClientName() + " PRIVMSG " + *msg + "\n");
         else
-          errorHandle(user, "", clientSocket, 406);  
+            return;
     }
 }

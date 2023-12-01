@@ -2,9 +2,8 @@
 
 void Commands::Part(User &user, vector<Channel> &channels, int clientSocket)
 {
-    (void)clientSocket;
-    //if (user._isAuth)
-    //{
+    if (user._isAuth)
+    {
         if(args.size() == 3)
         {
             vector<string>::iterator itArgs = args.begin() + 1;
@@ -17,7 +16,10 @@ void Commands::Part(User &user, vector<Channel> &channels, int clientSocket)
                         itChannels->removeUser(user.getNickName());
                         if (itChannels->userIsTheAdmin(user.getNickName()))
                             itChannels->removeAdmin(user.getNickName());
-                        //user removed message
+                        vector<User *> usersInChannel = itChannels->getUsers();
+                        vector<User *>::iterator itUserInChannel = usersInChannel.begin();
+                        for (; itUserInChannel != usersInChannel.end(); itUserInChannel++)
+                            SendToClient((*itUserInChannel)->socket, user.getNickName() + " left this channel! Reason: " + *(args.begin() + 2) + "\n");
                         return;
                     }
                 }
@@ -26,5 +28,5 @@ void Commands::Part(User &user, vector<Channel> &channels, int clientSocket)
         }
         else
             errorHandle(user, "", clientSocket, ERR_NEEDMOREPARAMS);
-    //}
+    }
 }

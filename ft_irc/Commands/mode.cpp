@@ -2,9 +2,8 @@
 
 void Commands::Mode(User& user, vector<Channel> &channels, int clientSocket)
 {
-    (void)clientSocket;
-    // if (user._isAuth)
-    // {
+    if (user._isAuth)
+    {
         if(args.size() == 3)
         {
             string operation = args[2];
@@ -26,4 +25,5 @@ void Commands::Mode(User& user, vector<Channel> &channels, int clientSocket)
         }
         else    
             errorHandle(user, "", clientSocket, ERR_NEEDMOREPARAMS);
+    }
 }

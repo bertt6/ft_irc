@@ -55,7 +55,7 @@ void Commands::findCommand(map<int, User> &user, vector<Channel> &channels, int 
     else if (*args.begin() == "PASS")
         this->Pass(user[clientSocket], clientSocket, password);
     else if(*args.begin() == "CAP")
-        SendToClient(clientSocket, "CAP * LS :multi-refix sasl\r\n");
+        this->Cap(clientSocket);
     else if (*args.begin() == "USER")
         this->Usèr(user[clientSocket], clientSocket);
     else if (*args.begin() == "PING")  
@@ -72,31 +72,17 @@ void Commands::findCommand(map<int, User> &user, vector<Channel> &channels, int 
         this->Topic(user[clientSocket], channels, clientSocket);
     else if (*args.begin() == "MODE")
         this->Mode(user[clientSocket], channels, clientSocket);
-    else if (*args.begin() == "EXIT")
-        this->Exit();
-    else if (*args.begin() == "test")
-    {
-        cout << endl << endl;
-        vector<Channel>::iterator it = channels.begin();
-        vector<User *> admins = (*it).getAdmins();
-
-        vector<User *>::iterator admin = admins.begin();
-        //vector<User *>::iterator admin = (*it).getAdmins().begin();
-
-        cout << (*admin)->getNickName() << endl;
-        //cout << (*user)->getNickName() << endl;
-        cout << (*it).getName() << endl;
-        cout << (*it).getTopic() << endl;
-        cout << (*it).userIsTheAdmin(user[clientSocket].getNickName()) << endl;
-        cout << (*it).userOnTheChannel(user[clientSocket].getNickName()) << endl;
-    }
+    else if (*args.begin() == "QUIT")
+        this->Quit(user[clientSocket], channels, clientSocket);
+    else if (*args.begin() == "NOTICE")
+        this->Notice(user[clientSocket], channels, user);
     else
-        this->UnknowCmd(user[clientSocket], clientSocket, parsedCmd);
+        this->UnknowCmd(user[clientSocket], clientSocket);
 }
 
-void    Commands::UnknowCmd(User &user, int clientSocket, string msg)
+void    Commands::UnknowCmd(User &user, int clientSocket)
 {
-    SendToClient(clientSocket, user.getClientName() + ": " + msg + " :Unknown command\n");
+    SendToClient(clientSocket, user.getClientName() + ": " + *args.begin() + " :Unknown command\n");
 }
 
 Channel*    Commands::findChannel(vector<Channel> &channels)
@@ -110,9 +96,8 @@ Channel*    Commands::findChannel(vector<Channel> &channels)
     return NULL;
 }
 
-void    SendToClient(int clientSocket, const std::string message)
+void    SendToClient(int clientSocket, const string message)
 {
-    //string newMsg = message
     send(clientSocket, message.c_str(), message.size(), 0);
 }
 

@@ -53,6 +53,7 @@ void Server::Start() {
     }
     string temp(getHostName);
     this->hostName = temp;
+    string ctrlD;
     while (true) {
         FD_ZERO(&readSet);
         FD_SET(_serverSocket, &readSet);
@@ -104,37 +105,47 @@ void Server::Start() {
                 int bytesRead = recv(_clientSocket, buffer, 1024, 0);
                 
                 string message(buffer);
-                if(message.size() && message[0] != '\n') {
-                    Cmd(message, _clientSocket, _password);
+                if(message.size() && message[0] != '\n' && *(message.end() - 1) == '\n')
+                {
+                    Cmd(ctrlD + message, _clientSocket, _password);
+                    ctrlD.clear();
                 }
-                if (bytesRead <= 0) {
+                else if (*(message.end() - 1) != '\n')
+                    ctrlD += message + " ";
+                if (message.find("QUIT") != string::npos || bytesRead <= 0) {
                     cout << _clientSocket << " Connection closed..." << endl;     
-                    resetServer(_clientSocket);           
+                    resetServer(_clientSocket);
                     close(_clientSocket);
                     _clientSockets.erase(_clientSockets.begin() + i);
                 } 
-                else {
-                    cout << "Client " << _clientSocket << ": " << buffer << endl;
-                    for (size_t j = 0; j < _clientSockets.size(); j++) {
-                        int otherSocket = _clientSockets[j];
-                        if (otherSocket != _clientSocket) {
-                        }
-                    }//?
-                }
+                else cout << "Client " << _clientSocket << ": " << buffer << endl;
             }
         }
     }
     close(_serverSocket);
 }
 
-void Server::Cmd(string msg, int clientSocket, string password) {
+void Server::Cmd(string msg, int clientSocket, string password) 
+{
     this->commands.handleCommand(this->Users, this->channels, clientSocket, msg, password);
 }
 
-void Server::resetServer(int _clientSocket) {
+void Server::resetServer(int _clientSocket) 
+{
+    vector<Channel>::iterator itChannel = channels.begin();
+    for (; itChannel != channels.end(); itChannel++)
+    {
+        if ((*itChannel).userOnTheChannel(Users[_clientSocket].getNickName()))
+        {
+            (*itChannel).removeUser(Users[_clientSocket].getNickName());
+            if ((*itChannel).userIsTheAdmin(Users[_clientSocket].getNickName()))
+                (*itChannel).removeAdmin(Users[_clientSocket].getNickName());
+
+            vector<User *> usersInChannel = itChannel->getUsers();
+            vector<User *>::iterator itUserInChannel = usersInChannel.begin();
+            for (; itUserInChannel != usersInChannel.end(); itUserInChannel++)
+                SendToClient((*itUserInChannel)->socket, Users[_clientSocket].getNickName() + " left this channel!\n");
+        }
+    }
     this->Users.erase(_clientSocket);
-    
-    //unit test
-    cout << this->Users[_clientSocket].getNickName() << endl;
-    
 }

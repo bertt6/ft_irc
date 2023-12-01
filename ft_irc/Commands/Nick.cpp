@@ -4,9 +4,6 @@ void Commands::Nick(map<int, User> &users, int clientSocket) {
     map<int, User>::iterator itUser = users.begin();
     vector<string>::iterator itArgs = args.begin() + 1;
     
-    // if(!(*itArgs)) {
-    //     SendToClient
-    // }
     if(args.size() == 2)
     {
         while (itUser != users.end())
@@ -45,7 +42,8 @@ void Commands::Nick(map<int, User> &users, int clientSocket) {
         }
         users[clientSocket]._isNicked = true;
     }
-    else {
+    else 
+    {
         cout << "\nCONTROL\n" << endl;
         errorHandle(users[clientSocket], "", clientSocket, ERR_NONICKNAMEGIVEN);
     }

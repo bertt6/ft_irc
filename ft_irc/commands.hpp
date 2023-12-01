@@ -29,24 +29,25 @@ class Commands {
         string parsedCmd;
         vector<string> args;
 
-        void Exit(void);
+        void Cap(int);
         void Usèr(User&, int);
         void Ping(User&, int);
+        void UnknowCmd(User&, int);
         void Pass(User&, int, string);
         void Nick(map<int, User> &, int);
         void Join(User&, vector<Channel> &, int);
         void Part(User&, vector<Channel> &, int);
         void Kick(User&, vector<Channel> &, int);
         void Mode(User&, vector<Channel> &, int);
+        void Quit(User&, vector<Channel> &, int);
         void Topic(User&, vector<Channel> &, int);
         void Privmsg(User&, vector<Channel> &, map<int, User> &, int);
-        void UnknowCmd(User&, int, string);
+        void Notice(User&, vector<Channel> &, map<int, User> &);
         
         Channel* findChannel(vector<Channel> &);
         User* findUser(map<int, User> &);
         void findCommand(map<int, User> &, vector<Channel> &, int, string);
         void handleCommand(map<int, User> &, vector<Channel> &, int, string, string);
-
         void errorHandle(User , string, int, int);
 };
 

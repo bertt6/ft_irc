@@ -2,10 +2,8 @@
 
 void Commands::Topic(User &user, vector<Channel> &channels, int clientSocket)
 {
-    (void)clientSocket;
-
-    // if (user._isAuth)
-    // {  
+    if (user._isAuth)
+    {  
         if(args.size() == 3)
         {
             Channel *channel = findChannel(channels);
@@ -24,7 +22,5 @@ void Commands::Topic(User &user, vector<Channel> &channels, int clientSocket)
         }
         else
             errorHandle(user, "", clientSocket, ERR_NEEDMOREPARAMS);
-        //channel not found or user not admin
-    // }
-    //not auth
+    }
 }

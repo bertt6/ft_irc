@@ -9,10 +9,12 @@ int main(int argc, char *argv[]) {
     }
 
     int port = std::atoi(argv[1]);
-
-    Server server(port);
-    server.setPassword(argv[2]);
-    server.Start();
+    if(port < 49152) 
+    {
+        Server server(port);
+        server.setPassword(argv[2]);
+        server.Start();
+    }
 
     return 0;
 }
