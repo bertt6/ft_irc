@@ -41,9 +41,5 @@ void Commands::Nick(map<int, User> &users, int clientSocket) {
         }
         users[clientSocket]._isNicked = true;
     }
-    else 
-    {
-        cout << "\nCONTROL\n" << endl;
-        errorHandle(users[clientSocket], "", clientSocket, ERR_NONICKNAMEGIVEN);
-    }
+    else errorHandle(users[clientSocket], "", clientSocket, ERR_NONICKNAMEGIVEN);
 }

@@ -27,7 +27,7 @@ void Commands::Mode(User& user, vector<Channel> &channels, int clientSocket)
                     }
                 }
             }
-            else errorHandle(user, channel->getName(), clientSocket, ERR_NOSUCHCHANNEL);
+            else errorHandle(user, "", clientSocket, ERR_NOSUCHCHANNEL);
         }
         else errorHandle(user, "", clientSocket, ERR_NEEDMOREPARAMS);
     }

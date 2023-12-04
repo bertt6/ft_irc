@@ -19,7 +19,7 @@ void Commands::Topic(User &user, vector<Channel> &channels, int clientSocket)
                         SendToClient((*it)->socket, (*it)->getClientName() + " TOPIC Topic has chanced: " + *topic + "!\n");
                 }
             }
-            else errorHandle(user, channel->getName(), clientSocket, ERR_NOSUCHCHANNEL);
+            else errorHandle(user, "", clientSocket, ERR_NOSUCHCHANNEL);
         }
         else errorHandle(user, "", clientSocket, ERR_NEEDMOREPARAMS);
     }

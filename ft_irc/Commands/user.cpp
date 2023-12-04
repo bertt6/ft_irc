@@ -16,11 +16,11 @@ void Commands::Usèr(User& user, int clientSocket) {
         user._isUser = true;
         if (user._isNicked) {
             user._isRegister = true;
-            SendToClient(clientSocket, user.getClientName() + user.getUserName() + " USER You are registered now!\n");
             string newClientName = user.getNickName() + "!" + user.getUserName() + "@" + user.hostname;
             user.setClientName(newClientName);
+            SendToClient(clientSocket, user.getClientName() + user.getUserName() + " USER You are registered now!\n");
         }
-        else if(user._isUser){
+        else if (user._isUser){
             string newClientName =  "!" + user.getUserName() + "@" + user.hostname;
             user.setClientName(newClientName);
         }

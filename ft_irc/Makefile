@@ -5,11 +5,12 @@ OBJECTS = $(FILE:.cpp=.o)
 FILE = server.cpp \
 	main.cpp \
 	user.cpp \
-	commands.cpp channel.cpp \
+	commands.cpp \
+	channel.cpp \
 	./commands/nick.cpp \
 	./commands/pass.cpp \
 	./commands/user.cpp \
-	./commands/Quit.cpp \
+	./commands/quit.cpp \
 	./commands/ping.cpp \
 	./commands/join.cpp \
 	./commands/kick.cpp \

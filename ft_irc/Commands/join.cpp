@@ -22,7 +22,7 @@ void Commands::Join(User &user, vector<Channel> &channels, int clientSocket)
                         SendToClient(clientSocket, user.getClientName() + " JOIN you joined the " + *itArgs + " channel!\n");
                         return;
                     }
-                    else if (itChannels->userOnTheChannel(user.getNickName()))
+                    else if (itChannels->getName() == *itArgs && itChannels->userOnTheChannel(user.getNickName()))
                     {
                         SendToClient(clientSocket, user.getClientName() + " JOIN You're already on this channel!\n");
                         return;
